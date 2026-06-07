@@ -6,7 +6,7 @@
 
 
     const PROXIES = [
-        "https://budget-v6.whiteproxies.com:27020
+        "https://budget-v6.whiteproxies.com:27020"
     ];
     const prod = false;
 
