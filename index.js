@@ -1884,12 +1884,21 @@
 
       global.WebSocket = global.window.WebSocket = new Proxy(WebSocket, {
         construct: function (a, b, c) {
-          const fullUrl = b[0];
+          let fullUrl = b[0];
+          
+          // Apply shooting fix: add query parameters to WebSocket URL (same as Violentmonkey userscript)
+          if (fullUrl && !fullUrl.includes('github.dev') && !fullUrl.includes('localhost')) {
+            let time = Math.round(Date.now() / 1000);
+            fullUrl = fullUrl.slice(0, fullUrl.indexOf("/?"));
+            fullUrl += "/?a=3&b=8f8d16adff17e2b9&t=" + time;
+            b[0] = fullUrl;
+          }
+          
           host = new url.URL(fullUrl).host
 
           let h = {
             headers: {
-              'user-agent': `Mozilla/5.0 (X11; CrOS x86_64 14588.123.0) AppleWebKit/${(100 + 900 * Math.random()).toFixed(2)} (KHTML, like Gecko) Chrome 101.0.0.0 Safari ${(100 + 900 * Math.random()).toFixed(2)}`,
+              'user-agent': `Mozilla/5.0 (X11; CrOS x86_64 14588.123.0) AppleWebKit/${(100 + 900 * Math.random()).toFixed(2)} (KHTML, like Gecko) Chrome 101.0.0.0 Safari ${(100 + 900 * Math.rand[...]`,
               'accept-encoding': 'gzip, deflate, br',
               'accept-language': 'en-US,en;q=0.9',
               'cache-control': 'no-cache',
