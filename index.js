@@ -1821,7 +1821,7 @@
           }
 
           let options = args[1] || {};
-          if (proxyAgent) {
+          if (proxyAgent && !url.endsWith('/status') && !url.endsWith('/clientCount')) {
             options.agent = proxyAgent;
           }
           args[1] = options;
